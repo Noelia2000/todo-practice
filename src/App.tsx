@@ -49,20 +49,33 @@ const App =(): JSX.Element =>{
     setFiltersSelected(filter)
 
   }
+
+  const handleRemoveAllCompleted=(): void =>{
+    const newTodos=todos.filter(todo =>!todo.completed)
+    setTodos(newTodos)
+  }
   const activeCount= todos.filter(todo=>!todo.completed).length
   const completedCount= todos.length-activeCount
+
+  const filteredTodos= todos.filter(todo=>{
+    if (filterSelected==TODO_FILTERS.ACTIVE)return!todo.completed
+    if (filterSelected==TODO_FILTERS.COMPLETED)return todo.completed
+    return todo 
+    
+
+  })
   return(
   <div className="todoapp">
   <Todos
   onToggleCompleteTodo={handleCompleted}
   onRemoveTodo={handleRemove}
-   todos={todos}
+   todos={filteredTodos}
    />
    <Footer
    activeCount={activeCount}
    completedCount={completedCount}
    filterSelected={filterSelected}
-   onClearCompleted={()=>{}}
+   onClearCompleted={handleRemoveAllCompleted}
    handleFilterChange={handleFilterChange}
    />
   </div>
